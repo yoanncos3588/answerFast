@@ -1,9 +1,18 @@
-import { Button } from "react-daisyui";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./components/home";
+import CreateRoom from "./components/CreateRoom";
+
 function App() {
   return (
     <>
-      <p>go !</p>
-      <Button color="primary">Click me!</Button>
+      <BrowserRouter>
+        <div className="px-4 h-full">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/createRoom" element={<CreateRoom />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </>
   );
 }
