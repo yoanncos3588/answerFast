@@ -1,18 +1,16 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./components/home";
 import CreateRoom from "./components/CreateRoom";
+import WaitingRoom from "./components/WaitingRoom";
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <div className="px-4 h-full">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/createRoom" element={<CreateRoom />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/create-room" element={<CreateRoom />} />
+        <Route path="/waiting-room" element={<WaitingRoom />} />
+      </Routes>
     </>
   );
 }

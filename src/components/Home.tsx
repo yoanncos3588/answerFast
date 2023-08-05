@@ -1,5 +1,5 @@
-import { Button } from "react-daisyui";
 import Logo from "./Logo";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -9,12 +9,16 @@ const Home = () => {
           <Logo />
         </div>
         <div className="flex flex-col justify-center items-center">
-          <Button color="primary" className=" my-3 w-full">
+          <Link
+            to="/create-room"
+            className="btn btn-primary my-3 w-full"
+            role="button"
+          >
             Créer une partie !
-          </Button>
-          <Button color="secondary" className=" my-3 w-full">
+          </Link>
+          <Link to="/#" className="btn btn-secondary my-3 w-full" role="button">
             Rejoindre une partie !
-          </Button>
+          </Link>
         </div>
       </div>
     </>

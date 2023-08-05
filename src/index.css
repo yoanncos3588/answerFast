@@ -9,4 +9,5 @@ body,
 #root,
 div[data-theme] {
   @apply h-full;
+  overflow: auto;
 }
