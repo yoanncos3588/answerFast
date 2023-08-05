@@ -8,7 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <Theme dataTheme="synthwave" className="p-8 h-full">
+      <Theme dataTheme="synthwave" className="bg-gradient-to-tr from-neutral to-neutral-focus p-8 h-full">
         <App />
       </Theme>
     </BrowserRouter>

@@ -1,6 +1,13 @@
-import { Alert, Checkbox, Divider, Form, Input, Select } from "react-daisyui";
+import {
+  Alert,
+  Card,
+  Checkbox,
+  Divider,
+  Form,
+  Input,
+  Select,
+} from "react-daisyui";
 import Header from "./Header";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 type Props = {};
@@ -8,7 +15,7 @@ type Props = {};
 const CreateRoom = (props: Props) => {
   return (
     <>
-      <Header pageTitle="Créer une partie"/>
+      <Header pageTitle="Créer une partie" />
       <Form className=" grid grid-cols-1 md:grid-cols-3 gap-12">
         <div>
           <h2 className=" text-xs font-bold mb-4 text-secondary uppercase">
@@ -55,44 +62,77 @@ const CreateRoom = (props: Props) => {
           <Alert color="error" className="mb-4 bg-error">
             <span>Vous devez choisir au moins un thême</span>
           </Alert>
-          <Form.Label title="TV/Cinéma" className=" bg-neutral p-4 my-2 rounded-lg">
+          <Form.Label
+            title="TV/Cinéma"
+            className=" bg-neutral p-4 my-2 rounded-lg"
+          >
             <Checkbox defaultChecked />
           </Form.Label>
-          <Form.Label title="Art/Littérature" className=" bg-neutral p-4 my-2 rounded-lg">
+          <Form.Label
+            title="Art/Littérature"
+            className=" bg-neutral p-4 my-2 rounded-lg"
+          >
             <Checkbox defaultChecked />
           </Form.Label>
-          <Form.Label title="Musique" className=" bg-neutral p-4 my-2 rounded-lg">
+          <Form.Label
+            title="Musique"
+            className=" bg-neutral p-4 my-2 rounded-lg"
+          >
             <Checkbox defaultChecked />
           </Form.Label>
-          <Form.Label title="Actu/Politique" className=" bg-neutral p-4 my-2 rounded-lg">
+          <Form.Label
+            title="Actu/Politique"
+            className=" bg-neutral p-4 my-2 rounded-lg"
+          >
             <Checkbox defaultChecked />
           </Form.Label>
-          <Form.Label title="Culture générale" className=" bg-neutral p-4 my-2 rounded-lg">
+          <Form.Label
+            title="Culture générale"
+            className=" bg-neutral p-4 my-2 rounded-lg"
+          >
             <Checkbox defaultChecked />
           </Form.Label>
           <Form.Label title="Sport" className=" bg-neutral p-4 my-2 rounded-lg">
             <Checkbox defaultChecked />
           </Form.Label>
-          <Form.Label title="Jeux vidéos" className=" bg-neutral p-4 mt-2 rounded-lg">
+          <Form.Label
+            title="Jeux vidéos"
+            className=" bg-neutral p-4 mt-2 rounded-lg"
+          >
             <Checkbox defaultChecked />
           </Form.Label>
         </div>
         <div>
           <Divider className="md:hidden"></Divider>
-          <h2 className=" text-xl font-bold mb-8">
-            Tout est <span className="text-accent">prêt</span> ?
-          </h2>
-          <p className="mb-4">
-            Si tout est ok on continue, un code à partager avec tes amis te sera
-            communiquer à la prochaine étape !
-          </p>
-          <Link
-            to="/waiting-room"
-            className="btn btn-success my-3 w-full"
-            role="button"
-          >
-            Créer la partie !
-          </Link>
+          <div>
+            <h2 className=" text-xs font-bold mb-4 text-secondary uppercase">
+              Pseudo
+            </h2>
+            <div className="form-control w-full mb-4">
+              <Input type="text" placeholder="MonPseudoSuperCool"/>
+            </div>
+          </div>
+          <Divider />
+          <Card>
+            <Card.Image
+              src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+              alt="Shoes"
+            />
+            <Card.Body className="bg-neutral">
+              <Card.Title tag="h2">
+                Tout est <span className="text-accent">prêt</span> ?
+              </Card.Title>
+              <p>
+                Si tout est ok on continue, un code à partager avec tes amis te
+                sera communiquer à la prochaine étape !
+              </p>
+              <Card.Actions className="justify-end mt-8">
+                <Link to={"/waiting-room"} className="btn btn-success w-full">
+                  Créer la partie !
+                </Link>
+              </Card.Actions>
+            </Card.Body>
+          </Card>
         </div>
       </Form>
     </>
