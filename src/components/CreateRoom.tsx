@@ -1,18 +1,82 @@
-import {
-  Alert,
-  Card,
-  Checkbox,
-  Divider,
-  Form,
-  Input,
-  Select,
-} from "react-daisyui";
+import { Alert, Card, Divider, Form, Input } from "react-daisyui";
 import Header from "./Header";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import gameConfigPossibility from "../utils/gameConfigPossibility";
+import SelectConfig from "./SelectConfig";
+import ThemeCheckbox from "./ThemeCheckbox";
 
 type Props = {};
 
 const CreateRoom = (props: Props) => {
+  interface GameSettings {
+    totalPlayers: string;
+    totalQuestions: string;
+    difficulty: string;
+    themes: Array<Theme>;
+    admin: string;
+  }
+
+  interface Theme {
+    name: string;
+    slug: string;
+  }
+
+  const [gameSettings, setGameSettings] = useState<GameSettings>({
+    totalPlayers: gameConfigPossibility.totalPlayers[0],
+    totalQuestions: gameConfigPossibility.totalQuestions[0],
+    difficulty: gameConfigPossibility.difficulty[0],
+    themes: gameConfigPossibility.themes,
+    admin: "MonPseudoTropCool",
+  });
+
+  // HANDLE CHANGE CONFIG
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLSelectElement>
+      | React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setGameSettings((pre) => ({
+      ...pre,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  // HANDLE CHANGE THEME
+  const handleChangeTheme = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGameSettings((pre) => {
+      const positionInState = findThemeIndex(e.target.name);
+      const themes = [...pre.themes];
+
+      if (positionInState === -1) {
+        // le theme n'est pas dans le state on le cherche dans le tableau de config
+        const newTheme = gameConfigPossibility.themes.find(
+          (t) => t.slug === e.target.name
+        );
+        // et on l'ajoute au state s'il existe bien dans le tableau de config
+        if (typeof newTheme !== "undefined") {
+          themes.push(newTheme);
+        }
+      } else {
+        // le theme est dans le state, alors on le supprime
+        themes.splice(positionInState, 1);
+      }
+      return {
+        ...pre,
+        themes,
+      };
+    });
+  };
+
+  /**
+   * Recherche un theme dans le state
+   * @param {string} value : slug du theme à rechercher dans le state
+   * @returns {number} -1 si false, index si true
+   */
+  const findThemeIndex = (value: string) => {
+    return gameSettings.themes.findIndex((o) => o.slug === value);
+  };
+
   return (
     <>
       <Header pageTitle="Créer une partie" />
@@ -21,86 +85,56 @@ const CreateRoom = (props: Props) => {
           <h2 className=" text-xs font-bold mb-4 text-secondary uppercase">
             Réglages
           </h2>
+          {/*----------------------NOMBRE JOUEURS */}
           <div className="form-control w-full mb-4">
-            <label className="label">
-              <span className="label-text">Nombre de joueurs :</span>
-            </label>
-            <Select defaultValue={5} onChange={console.log}>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </Select>
+            <SelectConfig
+              label={"Nombre de joueurs"}
+              defaultValue={gameSettings.totalPlayers}
+              options={gameConfigPossibility.totalPlayers}
+              handleChange={handleChange}
+              name={"totalPlayers"}
+            />
           </div>
+          {/*----------------------NOMBRE QUESTIONS */}
           <div className="form-control w-full mb-4">
-            <label className="label">
-              <span className="label-text">Nombre de questions :</span>
-            </label>
-            <Select defaultValue={5} onChange={console.log}>
-              <option>5</option>
-              <option>10</option>
-              <option>15</option>
-              <option>20</option>
-            </Select>
+            <SelectConfig
+              label={"Nombre de questions"}
+              defaultValue={gameSettings.totalQuestions}
+              options={gameConfigPossibility.totalQuestions}
+              handleChange={handleChange}
+              name={"totalQuestions"}
+            />
           </div>
+          {/*----------------------DIFFICULTE */}
           <div className="form-control w-full mb-4">
-            <label className="label">
-              <span className="label-text">Difficulté :</span>
-            </label>
-            <Select defaultValue={"Facile"} onChange={console.log}>
-              <option>Facile</option>
-              <option>Normal</option>
-              <option>Difficile</option>
-            </Select>
+            <SelectConfig
+              label={"Difficulté"}
+              defaultValue={gameSettings.difficulty}
+              options={gameConfigPossibility.difficulty}
+              handleChange={handleChange}
+              name={"difficulty"}
+            />
           </div>
         </div>
         <div className="form-control w-full">
           <h2 className=" text-xs font-bold mb-4 text-secondary uppercase">
             Thêmes
           </h2>
-          <Alert color="error" className="mb-4 bg-error">
-            <span>Vous devez choisir au moins un thême</span>
-          </Alert>
-          <Form.Label
-            title="TV/Cinéma"
-            className=" bg-neutral p-4 my-2 rounded-lg"
-          >
-            <Checkbox defaultChecked />
-          </Form.Label>
-          <Form.Label
-            title="Art/Littérature"
-            className=" bg-neutral p-4 my-2 rounded-lg"
-          >
-            <Checkbox defaultChecked />
-          </Form.Label>
-          <Form.Label
-            title="Musique"
-            className=" bg-neutral p-4 my-2 rounded-lg"
-          >
-            <Checkbox defaultChecked />
-          </Form.Label>
-          <Form.Label
-            title="Actu/Politique"
-            className=" bg-neutral p-4 my-2 rounded-lg"
-          >
-            <Checkbox defaultChecked />
-          </Form.Label>
-          <Form.Label
-            title="Culture générale"
-            className=" bg-neutral p-4 my-2 rounded-lg"
-          >
-            <Checkbox defaultChecked />
-          </Form.Label>
-          <Form.Label title="Sport" className=" bg-neutral p-4 my-2 rounded-lg">
-            <Checkbox defaultChecked />
-          </Form.Label>
-          <Form.Label
-            title="Jeux vidéos"
-            className=" bg-neutral p-4 mt-2 rounded-lg"
-          >
-            <Checkbox defaultChecked />
-          </Form.Label>
+          {/*----------------------THEMES */}
+          {gameConfigPossibility.themes.map((g, index) => (
+            <ThemeCheckbox
+              key={index}
+              name={g.name}
+              slug={g.slug}
+              handleChangeTheme={handleChangeTheme}
+              checked={findThemeIndex(g.slug) === -1 ? false : true}
+            />
+          ))}
+          {gameSettings.themes.length === 0 && (
+            <Alert color="error" className="mt-4 bg-error">
+              <span>Vous devez choisir au moins un thême</span>
+            </Alert>
+          )}
         </div>
         <div>
           <Divider className="md:hidden"></Divider>
@@ -109,7 +143,13 @@ const CreateRoom = (props: Props) => {
               Pseudo
             </h2>
             <div className="form-control w-full mb-4">
-              <Input type="text" placeholder="MonPseudoSuperCool"/>
+              {/*----------------------PSEUDO */}
+              <Input
+                type="text"
+                placeholder="MonPseudoSuperCool"
+                value={gameSettings.admin}
+                onChange={handleChange}
+              />
             </div>
           </div>
           <Divider />
