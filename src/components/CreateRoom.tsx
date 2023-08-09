@@ -1,30 +1,20 @@
 import { Alert, Button, Card, Divider, Form, Input } from "react-daisyui";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import gameConfigPossibility from "../utils/gameConfigPossibility";
 import SelectConfig from "./SelectConfig";
 import ThemeCheckbox from "./ThemeCheckbox";
 import { createRoom } from "../socket/createGame";
-import { useAppSelector } from "../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
+import { setGameSettings, toggleTheme } from "../store/gameReducer";
 
 type Props = {};
 
 const CreateRoom = (props: Props) => {
-  type GameSettings = {
-    totalPlayers: string;
-    totalQuestions: string;
-    difficulty: string;
-    themes: Array<Theme>;
-    admin: string;
-  };
-
-  type Theme = {
-    name: string;
-    slug: string;
-  };
-
   const roomId = useAppSelector((state) => state.game.roomId);
+  const gameSettings = useAppSelector((state) => state.game.gameSettings);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,14 +22,6 @@ const CreateRoom = (props: Props) => {
       navigate(`/room/${roomId}`);
     }
   }, [roomId]);
-
-  const [gameSettings, setGameSettings] = useState<GameSettings>({
-    totalPlayers: gameConfigPossibility.totalPlayers[0],
-    totalQuestions: gameConfigPossibility.totalQuestions[0],
-    difficulty: gameConfigPossibility.difficulty[0],
-    themes: gameConfigPossibility.themes,
-    admin: "MonPseudoTropCool",
-  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -52,36 +34,7 @@ const CreateRoom = (props: Props) => {
       | React.ChangeEvent<HTMLSelectElement>
       | React.ChangeEvent<HTMLInputElement>
   ) => {
-    setGameSettings((pre) => ({
-      ...pre,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  // HANDLE CHANGE THEME
-  const handleChangeTheme = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGameSettings((pre) => {
-      const positionInState = findThemeIndex(e.target.name);
-      const themes = [...pre.themes];
-
-      if (positionInState === -1) {
-        // le theme n'est pas dans le state on le cherche dans le tableau de config
-        const newTheme = gameConfigPossibility.themes.find(
-          (t) => t.slug === e.target.name
-        );
-        // et on l'ajoute au state s'il existe bien dans le tableau de config
-        if (typeof newTheme !== "undefined") {
-          themes.push(newTheme);
-        }
-      } else {
-        // le theme est dans le state, alors on le supprime
-        themes.splice(positionInState, 1);
-      }
-      return {
-        ...pre,
-        themes,
-      };
-    });
+    dispatch(setGameSettings({ key: e.target.name, value: e.target.value }));
   };
 
   /**
@@ -89,8 +42,8 @@ const CreateRoom = (props: Props) => {
    * @param {string} value : slug du theme à rechercher dans le state
    * @returns {number} -1 si false, index si true
    */
-  const findThemeIndex = (value: string) => {
-    return gameSettings.themes.findIndex((o) => o.slug === value);
+  const anyActivTheme = () => {
+    return gameSettings.themes.some((theme) => theme.activ);
   };
 
   return (
@@ -140,16 +93,16 @@ const CreateRoom = (props: Props) => {
             Thêmes
           </h2>
           {/*----------------------THEMES */}
-          {gameConfigPossibility.themes.map((g, index) => (
+          {gameSettings.themes.map((g) => (
             <ThemeCheckbox
-              key={index}
+              key={g.id}
               name={g.name}
               slug={g.slug}
-              handleChangeTheme={handleChangeTheme}
-              checked={findThemeIndex(g.slug) === -1 ? false : true}
+              handleChangeTheme={() => dispatch(toggleTheme(g.id))}
+              checked={g.activ}
             />
           ))}
-          {gameSettings.themes.length === 0 && (
+          {!anyActivTheme() && (
             <Alert color="error" className="mt-4 bg-error">
               <span>Vous devez choisir au moins un thême</span>
             </Alert>
@@ -189,9 +142,6 @@ const CreateRoom = (props: Props) => {
                 <Button className="btn btn-success w-full">
                   Créer la partie
                 </Button>
-                {/* <Link to={"/waiting-room"} className="btn btn-success w-full">
-                  Créer la partie !
-                </Link> */}
               </Card.Actions>
             </Card.Body>
           </Card>
