@@ -1,27 +1,37 @@
 import { Alert, Button, Card, Divider, Form, Input } from "react-daisyui";
 import Header from "./Header";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import gameConfigPossibility from "../utils/gameConfigPossibility";
 import SelectConfig from "./SelectConfig";
 import ThemeCheckbox from "./ThemeCheckbox";
 import { createRoom } from "../socket/createGame";
+import { useAppSelector } from "../hooks/reduxHooks";
 
 type Props = {};
 
 const CreateRoom = (props: Props) => {
-  interface GameSettings {
+  type GameSettings = {
     totalPlayers: string;
     totalQuestions: string;
     difficulty: string;
     themes: Array<Theme>;
     admin: string;
-  }
+  };
 
-  interface Theme {
+  type Theme = {
     name: string;
     slug: string;
-  }
+  };
+
+  const roomId = useAppSelector((state) => state.game.roomId);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (roomId) {
+      navigate(`/room/${roomId}`);
+    }
+  }, [roomId]);
 
   const [gameSettings, setGameSettings] = useState<GameSettings>({
     totalPlayers: gameConfigPossibility.totalPlayers[0],
@@ -31,9 +41,8 @@ const CreateRoom = (props: Props) => {
     admin: "MonPseudoTropCool",
   });
 
-  const handleCreateRoom = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("click on create room");
     createRoom(gameSettings);
   };
 
@@ -87,7 +96,10 @@ const CreateRoom = (props: Props) => {
   return (
     <>
       <Header pageTitle="Créer une partie" />
-      <Form className=" grid grid-cols-1 md:grid-cols-3 gap-12">
+      <Form
+        className=" grid grid-cols-1 md:grid-cols-3 gap-12"
+        onSubmit={handleSubmit}
+      >
         <div>
           <h2 className=" text-xs font-bold mb-4 text-secondary uppercase">
             Réglages
@@ -174,10 +186,7 @@ const CreateRoom = (props: Props) => {
                 sera communiquer à la prochaine étape !
               </p>
               <Card.Actions className="justify-end mt-8">
-                <Button
-                  className="btn btn-success w-full"
-                  onClick={handleCreateRoom}
-                >
+                <Button className="btn btn-success w-full">
                   Créer la partie
                 </Button>
                 {/* <Link to={"/waiting-room"} className="btn btn-success w-full">

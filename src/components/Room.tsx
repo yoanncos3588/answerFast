@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 
 type Props = {};
 
-const WaitingRoom = (props: Props) => {
+const Room = (props: Props) => {
   return (
     <>
       <Header pageTitle="Salle d'attente" />
@@ -132,4 +132,4 @@ const WaitingRoom = (props: Props) => {
   );
 };
 
-export default WaitingRoom;
+export default Room;
