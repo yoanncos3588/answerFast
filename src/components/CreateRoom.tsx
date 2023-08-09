@@ -1,10 +1,11 @@
-import { Alert, Card, Divider, Form, Input } from "react-daisyui";
+import { Alert, Button, Card, Divider, Form, Input } from "react-daisyui";
 import Header from "./Header";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import gameConfigPossibility from "../utils/gameConfigPossibility";
 import SelectConfig from "./SelectConfig";
 import ThemeCheckbox from "./ThemeCheckbox";
+import { createRoom } from "../socket/createGame";
 
 type Props = {};
 
@@ -29,6 +30,12 @@ const CreateRoom = (props: Props) => {
     themes: gameConfigPossibility.themes,
     admin: "MonPseudoTropCool",
   });
+
+  const handleCreateRoom = (e) => {
+    e.preventDefault();
+    console.log("click on create room");
+    createRoom(gameSettings);
+  };
 
   // HANDLE CHANGE CONFIG
   const handleChange = (
@@ -167,9 +174,15 @@ const CreateRoom = (props: Props) => {
                 sera communiquer à la prochaine étape !
               </p>
               <Card.Actions className="justify-end mt-8">
-                <Link to={"/waiting-room"} className="btn btn-success w-full">
+                <Button
+                  className="btn btn-success w-full"
+                  onClick={handleCreateRoom}
+                >
+                  Créer la partie
+                </Button>
+                {/* <Link to={"/waiting-room"} className="btn btn-success w-full">
                   Créer la partie !
-                </Link>
+                </Link> */}
               </Card.Actions>
             </Card.Body>
           </Card>
