@@ -1,4 +1,3 @@
-import React from "react";
 import Header from "./Header";
 import {
   Badge,
@@ -16,7 +15,7 @@ type Props = {};
 const Room = (props: Props) => {
   return (
     <>
-      <Header pageTitle="Salle d'attente" />
+      <Header pageTitle="Salle d'attente" showBackNav askLeaveGame />
       <div className=" grid md:grid-cols-3 gap-12">
         <div>
           <Indicator className="w-full">

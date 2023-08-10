@@ -10,7 +10,7 @@ const initialState = {
   gameSettings: defaultConfig,
 } as GameReducerType;
 
-export const setRoomId = createAction<string>("game/addRoomId");
+export const setRoomId = createAction<string | null>("game/addRoomId");
 export const setIsLoading = createAction<boolean>("game/setIsLoading");
 export const setRound = createAction<number>("game/setRound");
 export const setCurrentQuestion = createAction<string>(

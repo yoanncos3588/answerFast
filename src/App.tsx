@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./components/home";
+import Home from "./components/Home";
 import CreateRoom from "./components/CreateRoom";
 import Room from "./components/Room";
 

@@ -21,7 +21,7 @@ const CreateRoom = (props: Props) => {
     if (roomId) {
       navigate(`/room/${roomId}`);
     }
-  }, [roomId]);
+  }, [roomId, navigate]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ const CreateRoom = (props: Props) => {
 
   return (
     <>
-      <Header pageTitle="Créer une partie" />
+      <Header pageTitle="Créer une partie" showBackNav />
       <Form
         className=" grid grid-cols-1 md:grid-cols-3 gap-12"
         onSubmit={handleSubmit}
