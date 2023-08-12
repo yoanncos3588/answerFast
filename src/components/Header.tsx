@@ -1,8 +1,7 @@
 import Logo from "./Logo";
 import { Divider } from "react-daisyui";
 import { Link } from "react-router-dom";
-import Modal from "./Modal";
-import { useCallback, useRef } from "react";
+import useConfirmationModal from "../hooks/useConfirmationModal";
 
 interface Props {
   pageTitle?: string;
@@ -11,15 +10,21 @@ interface Props {
 }
 
 const Header = ({ pageTitle, showBackNav }: Props) => {
-  const ref = useRef<HTMLDialogElement>(null);
+  const { showModal, ModalComponent } = useConfirmationModal();
 
-  const handleBackClick = useCallback(
-    (e) => {
-      e.preventDefault();
-      ref.current?.showModal();
-    },
-    [ref]
-  );
+  const handleBackClick = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await showModal("Title", "content");
+      if (res) {
+        console.log("valid");
+      } else {
+        console.log("decline");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -58,13 +63,7 @@ const Header = ({ pageTitle, showBackNav }: Props) => {
         </div>
       </header>
       <Divider className="md:mb-12" />
-      <Modal
-        ref={ref}
-        title={"Voulez vous quitter la partie ?"}
-        message={
-          "Vous êtes sur le point de quitter cette partie, êtes-vous sur ?"
-        }
-      />
+      {ModalComponent}
     </>
   );
 };
