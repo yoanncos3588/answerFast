@@ -1,18 +1,24 @@
 import Header from "./Header";
-import {
-  Badge,
-  Card,
-  ChatBubble,
-  Divider,
-  Indicator,
-  Loading,
-  Mask,
-} from "react-daisyui";
-import { Link } from "react-router-dom";
+import { Badge, Card, Divider, Indicator, Loading, Mask } from "react-daisyui";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../hooks/reduxHooks";
+import { useEffect } from "react";
+import RoomIdBubble from "./RoomIdBubble";
 
 type Props = {};
 
 const Room = (props: Props) => {
+  const navigate = useNavigate();
+  const roomId = useAppSelector((state) => state.game.room.id);
+  const gameSettings = useAppSelector((state) => state.game.gameSettings);
+
+  // obligatoire sinon redirect
+  useEffect(() => {
+    if (!roomId) {
+      navigate("/create-room");
+    }
+  }, [roomId, navigate]);
+
   return (
     <>
       <Header pageTitle="Salle d'attente" showBackNav askLeaveGame />
@@ -33,15 +39,7 @@ const Room = (props: Props) => {
                 Appuie sur le code ci-dessous pour le copier et le partager avec
                 tes amis
               </p>
-              <ChatBubble
-                end={true}
-                onClick={() => alert("cool")}
-                className=" animate__animated animate__headShake animate__delay-4s "
-              >
-                <ChatBubble.Message color="accent">
-                  <span className="font-bold text-lg">HE30DLAP876</span>
-                </ChatBubble.Message>
-              </ChatBubble>
+              <RoomIdBubble roomId={roomId as string} />
             </div>
           </Indicator>
           <Divider />
@@ -50,28 +48,32 @@ const Room = (props: Props) => {
           </h2>
           <ul className="mb-8">
             <li className="mb-2">
-              Nombre de joueurs :<span className=" text-accent"> 4</span>
+              Nombre de joueurs :{" "}
+              <span className=" text-accent">{gameSettings.totalPlayers}</span>
             </li>
             <li className="mb-2">
-              Nombre de questions :<span className=" text-accent"> 10</span>
+              Nombre de questions :{" "}
+              <span className=" text-accent">
+                {gameSettings.totalQuestions}
+              </span>
             </li>
             <li className="mb-2">
-              Difficulté : <span className=" text-accent"> Facile</span>
+              Difficulté :{" "}
+              <span className=" text-accent">{gameSettings.difficulty}</span>
             </li>
           </ul>
           <h2 className=" text-xs font-bold mb-4 text-secondary uppercase">
             Thêmes
           </h2>
           <ul className="-mx-2">
-            <li className=" inline-block bg-neutral p-4 m-2 rounded-lg">
-              TV/Cinéma
-            </li>
-            <li className="inline-block bg-neutral p-4 m-2 rounded-lg">
-              Musique
-            </li>
-            <li className="inline-block bg-neutral p-4 m-2 rounded-lg">
-              Sport
-            </li>
+            {gameSettings.themes.map(
+              (t) =>
+                t.activ && (
+                  <li className=" inline-block bg-neutral p-4 m-2 rounded-lg">
+                    {t.name}
+                  </li>
+                )
+            )}
           </ul>
         </div>
         <div>
@@ -94,7 +96,7 @@ const Room = (props: Props) => {
             </li>
             <Divider>
               <span className="flex opacity-40">
-                3/5 personnes attendues
+                3/{gameSettings.totalPlayers} personnes attendues
                 <Loading className="ml-2" variant="dots" size="xs" />
               </span>
             </Divider>
