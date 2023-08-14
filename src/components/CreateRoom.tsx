@@ -14,7 +14,6 @@ type Props = {};
 const CreateRoom = (props: Props) => {
   const roomId = useAppSelector((state) => state.game.room.id);
   const gameSettings = useAppSelector((state) => state.game.gameSettings);
-  console.log(gameSettings)
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

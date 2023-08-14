@@ -69,7 +69,7 @@ const Room = (props: Props) => {
             {gameSettings.themes.map(
               (t) =>
                 t.activ && (
-                  <li className=" inline-block bg-neutral p-4 m-2 rounded-lg">
+                  <li className="inline-block bg-neutral p-4 m-2 rounded-lg" key={t.id}>
                     {t.name}
                   </li>
                 )
