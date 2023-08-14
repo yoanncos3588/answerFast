@@ -12,8 +12,9 @@ import { setGameSettings, toggleTheme } from "../store/gameReducer";
 type Props = {};
 
 const CreateRoom = (props: Props) => {
-  const roomId = useAppSelector((state) => state.game.roomId);
+  const roomId = useAppSelector((state) => state.game.room.id);
   const gameSettings = useAppSelector((state) => state.game.gameSettings);
+  console.log(gameSettings)
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

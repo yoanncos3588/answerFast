@@ -1,7 +1,9 @@
 import Logo from "./Logo";
 import { Divider } from "react-daisyui";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useConfirmationModal from "../hooks/useConfirmationModal";
+import { useAppDispatch } from "../hooks/reduxHooks";
+import { killGame } from "../store/gameReducer";
 
 interface Props {
   pageTitle?: string;
@@ -9,17 +11,30 @@ interface Props {
   askLeaveGame?: boolean;
 }
 
-const Header = ({ pageTitle, showBackNav }: Props) => {
+const Header = ({ pageTitle, showBackNav, askLeaveGame }: Props) => {
   const { showModal, ModalComponent } = useConfirmationModal();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const handleBackClick = async (e) => {
+  const handleBackClick = async (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    navigate(-1);
+  };
+
+  const handleQuitGame = async (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
     e.preventDefault();
     try {
-      const res = await showModal("Title", "content");
+      const res = (await showModal(
+        "Quitter la partie ?",
+        "Vous êtes sur le point de quitter cette partie, êtes-vous sûr ?"
+      )) as boolean;
       if (res) {
-        console.log("valid");
-      } else {
-        console.log("decline");
+        dispatch(killGame(true));
+        navigate(-1);
       }
     } catch (error) {
       console.error(error);
@@ -32,7 +47,7 @@ const Header = ({ pageTitle, showBackNav }: Props) => {
         {showBackNav && (
           <Link
             to={".."}
-            onClick={handleBackClick}
+            onClick={askLeaveGame ? handleQuitGame : handleBackClick}
             className="btn btn-ghost mr-4"
           >
             <svg

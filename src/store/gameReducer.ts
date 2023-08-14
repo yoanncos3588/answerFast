@@ -3,13 +3,16 @@ import { GameReducerType } from "../@types/reducers";
 import { defaultConfig } from "../utils/gameConfigPossibility";
 
 const initialState = {
-  roomId: null,
-  isLoading: false,
-  round: null,
-  currentQuestion: null,
+  room: {
+    id: null,
+    isLoading: false,
+    round: null,
+    currentQuestion: null,
+  },
   gameSettings: defaultConfig,
 } as GameReducerType;
 
+export const killGame = createAction<boolean>("game/reset");
 export const setRoomId = createAction<string | null>("game/addRoomId");
 export const setIsLoading = createAction<boolean>("game/setIsLoading");
 export const setRound = createAction<number>("game/setRound");
@@ -24,17 +27,20 @@ export const toggleTheme = createAction<number>("game/toggleTheme");
 
 const gameReducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(killGame, (state) => {
+      state.room = initialState.room;
+    })
     .addCase(setRoomId, (state, action) => {
-      state.roomId = action.payload;
+      state.room.id = action.payload;
     })
     .addCase(setIsLoading, (state, action) => {
-      state.isLoading = action.payload;
+      state.room.isLoading = action.payload;
     })
     .addCase(setRound, (state, action) => {
-      state.round = action.payload;
+      state.room.round = action.payload;
     })
     .addCase(setCurrentQuestion, (state, action) => {
-      state.currentQuestion = action.payload;
+      state.room.currentQuestion = action.payload;
     })
     .addCase(setGameSettings, (state, action) => {
       state.gameSettings = {
