@@ -21,7 +21,7 @@ const Room = (props: Props) => {
 
   return (
     <>
-      <Header pageTitle="Salle d'attente" showBackNav askLeaveGame />
+      <Header pageTitle="Salle d'attente" showBackNav askLeaveGame backUrl="/create-room"/>
       <div className=" grid md:grid-cols-3 gap-12">
         <div>
           <Indicator className="w-full">
@@ -91,7 +91,7 @@ const Room = (props: Props) => {
                 <span className="block font-bold text-success-content">
                   MichealJordan
                 </span>
-                <Badge color="success">admin</Badge>
+                <Badge color="success">host</Badge>
               </div>
             </li>
             <Divider>

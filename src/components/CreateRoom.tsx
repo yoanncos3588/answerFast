@@ -48,7 +48,7 @@ const CreateRoom = (props: Props) => {
 
   return (
     <>
-      <Header pageTitle="Créer une partie" showBackNav />
+      <Header pageTitle="Créer une partie" showBackNav backUrl={"/"} />
       <Form
         className=" grid grid-cols-1 md:grid-cols-3 gap-12"
         onSubmit={handleSubmit}
@@ -119,7 +119,7 @@ const CreateRoom = (props: Props) => {
               <Input
                 type="text"
                 placeholder="MonPseudoSuperCool"
-                value={gameSettings.admin}
+                value={gameSettings.host}
                 onChange={handleChange}
               />
             </div>

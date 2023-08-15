@@ -3,7 +3,7 @@ export type GameSettingsType = {
   totalQuestions: string;
   difficulty: string;
   themes: Array<ThemeType>;
-  admin: string;
+  host: string;
 };
 
 export type ThemeType = {

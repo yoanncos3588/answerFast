@@ -9,9 +9,10 @@ interface Props {
   pageTitle?: string;
   showBackNav?: boolean;
   askLeaveGame?: boolean;
+  backUrl?: string;
 }
 
-const Header = ({ pageTitle, showBackNav, askLeaveGame }: Props) => {
+const Header = ({ pageTitle, showBackNav, askLeaveGame, backUrl }: Props) => {
   const { showModal, ModalComponent } = useConfirmationModal();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -20,7 +21,11 @@ const Header = ({ pageTitle, showBackNav, askLeaveGame }: Props) => {
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     e.preventDefault();
-    navigate(-1);
+    if (typeof backUrl !== "undefined") {
+      navigate(backUrl);
+    } else {
+      navigate("/");
+    }
   };
 
   const handleQuitGame = async (
@@ -34,7 +39,11 @@ const Header = ({ pageTitle, showBackNav, askLeaveGame }: Props) => {
       )) as boolean;
       if (res) {
         dispatch(killGame(true));
-        navigate(-1);
+        if (typeof backUrl !== "undefined") {
+          navigate(backUrl);
+        } else {
+          navigate("/");
+        }
       }
     } catch (error) {
       console.error(error);
