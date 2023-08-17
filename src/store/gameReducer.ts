@@ -1,52 +1,52 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
 import { GameReducerType } from "../@types/reducers";
 import { defaultConfig } from "../utils/gameConfigPossibility";
+import { PlayerListType } from "../@types/player";
+import { GameSettingsType } from "../@types/gameSettings";
 
 const initialState = {
-  room: {
-    id: null,
-    isLoading: false,
-    round: null,
-    currentQuestion: null,
-  },
+  id: null,
+  hostId: null,
+  gameManage: null,
   gameSettings: defaultConfig,
+  players: {},
 } as GameReducerType;
 
 export const killGame = createAction<boolean>("game/reset");
-export const setRoomId = createAction<string | null>("game/addRoomId");
-export const setIsLoading = createAction<boolean>("game/setIsLoading");
-export const setRound = createAction<number>("game/setRound");
-export const setCurrentQuestion = createAction<string>(
-  "game/setCurrentQuestion"
+export const setRoomId = createAction<string | null>("game/setRoomId");
+export const setHostId = createAction<string | null>("game/setHostId");
+
+export const changeGameSettings = createAction<{ key: string; value: string }>(
+  "game/changeGameSettings"
 );
-export const setGameSettings = createAction<{ key: string; value: string }>(
-  "game/setGameSettings"
+export const createGameSettings = createAction<GameSettingsType>(
+  "game/createGameSettings"
 );
+export const setPlayers = createAction<PlayerListType>("game/setPlayers");
 
 export const toggleTheme = createAction<number>("game/toggleTheme");
 
 const gameReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(killGame, (state) => {
-      state.room = initialState.room;
+      state.id = initialState.id;
+      state.hostId = initialState.hostId;
+      state.gameManage = initialState.gameManage;
     })
     .addCase(setRoomId, (state, action) => {
-      state.room.id = action.payload;
+      state.id = action.payload;
     })
-    .addCase(setIsLoading, (state, action) => {
-      state.room.isLoading = action.payload;
+    .addCase(setHostId, (state, action) => {
+      state.hostId = action.payload;
     })
-    .addCase(setRound, (state, action) => {
-      state.room.round = action.payload;
-    })
-    .addCase(setCurrentQuestion, (state, action) => {
-      state.room.currentQuestion = action.payload;
-    })
-    .addCase(setGameSettings, (state, action) => {
+    .addCase(changeGameSettings, (state, action) => {
       state.gameSettings = {
         ...state.gameSettings,
         [action.payload.key]: action.payload.value,
       };
+    })
+    .addCase(setPlayers, (state, action) => {
+      state.players = action.payload;
     })
     .addCase(toggleTheme, (state, action) => {
       state.gameSettings.themes[action.payload].activ =

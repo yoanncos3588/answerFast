@@ -9,8 +9,9 @@ type Props = {};
 
 const Room = (props: Props) => {
   const navigate = useNavigate();
-  const roomId = useAppSelector((state) => state.game.room.id);
+  const roomId = useAppSelector((state) => state.game.id);
   const gameSettings = useAppSelector((state) => state.game.gameSettings);
+  const players = useAppSelector((state) => state.game.players);
 
   // obligatoire sinon redirect
   useEffect(() => {
@@ -21,7 +22,12 @@ const Room = (props: Props) => {
 
   return (
     <>
-      <Header pageTitle="Salle d'attente" showBackNav askLeaveGame backUrl="/create-room"/>
+      <Header
+        pageTitle="Salle d'attente"
+        showBackNav
+        askLeaveGame
+        backUrl="/create-room"
+      />
       <div className=" grid md:grid-cols-3 gap-12">
         <div>
           <Indicator className="w-full">
@@ -69,7 +75,10 @@ const Room = (props: Props) => {
             {gameSettings.themes.map(
               (t) =>
                 t.activ && (
-                  <li className="inline-block bg-neutral p-4 m-2 rounded-lg" key={t.id}>
+                  <li
+                    className="inline-block bg-neutral p-4 m-2 rounded-lg"
+                    key={t.id}
+                  >
                     {t.name}
                   </li>
                 )
@@ -81,19 +90,22 @@ const Room = (props: Props) => {
             Participants
           </h2>
           <ul>
-            <li className=" bg-neutral-content text-neutral p-3 rounded-lg grid grid-cols-5 mb-4">
-              <Mask
-                className="w-[56px]"
-                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                variant="circle"
-              />
-              <div className=" col-span-4 flex flex-col justify-center pl-4">
-                <span className="block font-bold text-success-content">
-                  MichealJordan
-                </span>
-                <Badge color="success">host</Badge>
-              </div>
-            </li>
+            {Object.keys(players).map((key) => (
+              <li className=" bg-neutral-content text-neutral p-3 rounded-lg grid grid-cols-5 mb-4">
+                {console.log(players[key])}
+                <Mask
+                  className="w-[56px]"
+                  src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                  variant="circle"
+                />
+                <div className=" col-span-4 flex flex-col justify-center pl-4">
+                  <span className="block font-bold text-success-content">
+                    {players[key].name}
+                  </span>
+                  <Badge color="success">host</Badge>
+                </div>
+              </li>
+            ))}
             <Divider>
               <span className="flex opacity-40">
                 3/{gameSettings.totalPlayers} personnes attendues

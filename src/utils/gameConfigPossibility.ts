@@ -4,8 +4,6 @@ const totalPlayers = ["1", "2", "3", "4", "5"];
 const totalQuestions = ["5", "10", "15", "20"];
 const difficulty = ["facile", "moyen", "difficile"];
 
-const host = "MonSuperPseudo";
-
 const themes: Array<ThemeType> = [
   {
     id: 0,
@@ -56,7 +54,6 @@ const gameConfigPossibility = {
   totalQuestions,
   difficulty,
   themes,
-  host,
 };
 
 export const defaultConfig: GameSettingsType = {
@@ -64,7 +61,6 @@ export const defaultConfig: GameSettingsType = {
   totalQuestions: totalQuestions[0],
   difficulty: difficulty[0],
   themes,
-  host,
 };
 
 export default gameConfigPossibility;

@@ -1,14 +1,11 @@
+import { GameManageType } from "./gameManage";
 import { GameSettingsType } from "./gameSettings";
+import { PlayerListType } from "./player";
 
 export type GameReducerType = {
-  room: GameReducerPropertyType;
-  gameSettings: GameSettingsType;
-};
-
-export type GameReducerPropertyType = {
   id: null | string;
-  isLoading: boolean;
-  round: null | number;
-  currentQuestion: null | string;
+  hostId: string | null;
+  gameManage: GameManageType | null;
   gameSettings: GameSettingsType;
+  players: PlayerListType;
 };

@@ -5,15 +5,17 @@ import { useEffect } from "react";
 import gameConfigPossibility from "../utils/gameConfigPossibility";
 import SelectConfig from "./SelectConfig";
 import ThemeCheckbox from "./ThemeCheckbox";
-import { createRoom } from "../socket/createGame";
+import { createRoom } from "../socket/createRoom";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { setGameSettings, toggleTheme } from "../store/gameReducer";
+import { changeGameSettings, toggleTheme } from "../store/gameReducer";
+import { setPlayerName } from "../store/playerReducer";
 
 type Props = {};
 
 const CreateRoom = (props: Props) => {
-  const roomId = useAppSelector((state) => state.game.room.id);
+  const roomId = useAppSelector((state) => state.game.id);
   const gameSettings = useAppSelector((state) => state.game.gameSettings);
+  const player = useAppSelector((state) => state.player);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ const CreateRoom = (props: Props) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createRoom(gameSettings);
+    createRoom(gameSettings, player.name);
   };
 
   // HANDLE CHANGE CONFIG
@@ -34,7 +36,13 @@ const CreateRoom = (props: Props) => {
       | React.ChangeEvent<HTMLSelectElement>
       | React.ChangeEvent<HTMLInputElement>
   ) => {
-    dispatch(setGameSettings({ key: e.target.name, value: e.target.value }));
+    if (e.target.name === "host") {
+      dispatch(setPlayerName(e.target.value));
+    } else {
+      dispatch(
+        changeGameSettings({ key: e.target.name, value: e.target.value })
+      );
+    }
   };
 
   /**
@@ -119,7 +127,8 @@ const CreateRoom = (props: Props) => {
               <Input
                 type="text"
                 placeholder="MonPseudoSuperCool"
-                value={gameSettings.host}
+                name="host"
+                value={player.name}
                 onChange={handleChange}
               />
             </div>
