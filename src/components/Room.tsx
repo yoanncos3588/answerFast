@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../hooks/reduxHooks";
 import { useEffect } from "react";
 import RoomIdBubble from "./RoomIdBubble";
+import PlayersList from "./PlayersList";
 
 type Props = {};
 
@@ -11,7 +12,6 @@ const Room = (props: Props) => {
   const navigate = useNavigate();
   const roomId = useAppSelector((state) => state.game.id);
   const gameSettings = useAppSelector((state) => state.game.gameSettings);
-  const players = useAppSelector((state) => state.game.players);
 
   // obligatoire sinon redirect
   useEffect(() => {
@@ -89,39 +89,8 @@ const Room = (props: Props) => {
           <h2 className=" text-xs font-bold mb-4 text-secondary uppercase">
             Participants
           </h2>
-          <ul>
-            {Object.keys(players).map((key) => (
-              <li className=" bg-neutral-content text-neutral p-3 rounded-lg grid grid-cols-5 mb-4">
-                {console.log(players[key])}
-                <Mask
-                  className="w-[56px]"
-                  src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                  variant="circle"
-                />
-                <div className=" col-span-4 flex flex-col justify-center pl-4">
-                  <span className="block font-bold text-success-content">
-                    {players[key].name}
-                  </span>
-                  <Badge color="success">host</Badge>
-                </div>
-              </li>
-            ))}
-            <Divider>
-              <span className="flex opacity-40">
-                3/{gameSettings.totalPlayers} personnes attendues
-                <Loading className="ml-2" variant="dots" size="xs" />
-              </span>
-            </Divider>
-            <li className=" animate-pulse bg-neutral-content text-neutral p-3 rounded-lg grid grid-cols-5 mb-4 opacity-20 grayscale">
-              <div className="mask mask-circle bg-neutral w-[56px] h-[56px] opacity-20"></div>
-              <div className=" col-span-4 flex flex-col justify-center pl-4 opacity-20">
-                <div className="bg-neutral w-full h-5 mb-1"></div>
-                <Badge color="neutral" outline>
-                  invité
-                </Badge>
-              </div>
-            </li>
-          </ul>
+          <PlayersList totalPlayers={gameSettings.totalPlayers} />
+
         </div>
         <div>
           <Card>

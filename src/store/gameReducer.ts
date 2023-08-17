@@ -45,6 +45,9 @@ const gameReducer = createReducer(initialState, (builder) => {
         [action.payload.key]: action.payload.value,
       };
     })
+    .addCase(createGameSettings, (state, action) => {
+      state.gameSettings = action.payload;
+    })
     .addCase(setPlayers, (state, action) => {
       state.players = action.payload;
     })
