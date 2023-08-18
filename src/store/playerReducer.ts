@@ -2,12 +2,12 @@ import { createAction, createReducer } from "@reduxjs/toolkit";
 import { PlayerType } from "../@types/player";
 
 const initialState: PlayerType = {
-  id: null,
+  id: "",
   name: "MonSuperPseudo",
 };
 
 export const setPlayer = createAction<PlayerType>("player/set");
-export const setPlayerId = createAction<string | null>("player/setId");
+export const setPlayerId = createAction<string>("player/setId");
 export const setPlayerName = createAction<string>("player/setName");
 
 const playerReducer = createReducer(initialState, (builder) => {

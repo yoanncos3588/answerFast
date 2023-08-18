@@ -1,26 +1,20 @@
 import { Mask, Badge, Divider, Loading } from "react-daisyui";
 import { useAppSelector } from "../hooks/reduxHooks";
-import { useEffect, useState } from "react";
 
-type Props = {};
+type Props = { totalPlayers: number };
 
-const PlayersList = ({ totalPlayers }) => {
-  // const [waitingForPlayers, setWaitingForPlayers] = useState(true);
-
+const PlayersList = ({ totalPlayers }: Props) => {
   const players = useAppSelector((state) => state.game.players);
   const totalConnectedPlayers = Object.keys(players).length;
-
-  // useEffect(() => {
-  //   if (totalConnectedPlayers >= totalPlayers) {
-  //     setWaitingForPlayers(false);
-  //   }
-  // }, [waitingForPlayers, totalConnectedPlayers, totalPlayers]);
 
   return (
     <>
       <ul>
         {Object.keys(players).map((key) => (
-          <li className=" bg-neutral-content text-neutral p-3 rounded-lg grid grid-cols-5 mb-4">
+          <li
+            className=" bg-neutral-content text-neutral p-3 rounded-lg grid grid-cols-5 mb-4"
+            key={players[key].id}
+          >
             <Mask
               className="w-[56px]"
               src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"

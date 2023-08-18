@@ -1,5 +1,5 @@
 export type PlayerType = {
-  id: string | null;
+  id: string;
   name: string;
 };
 

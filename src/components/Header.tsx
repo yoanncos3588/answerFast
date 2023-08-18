@@ -4,15 +4,23 @@ import { Link, useNavigate } from "react-router-dom";
 import useConfirmationModal from "../hooks/useConfirmationModal";
 import { useAppDispatch } from "../hooks/reduxHooks";
 import { killGame } from "../store/gameReducer";
+import { emitClientLeftTheRoom } from "../socket/room";
 
 interface Props {
   pageTitle?: string;
   showBackNav?: boolean;
   askLeaveGame?: boolean;
   backUrl?: string;
+  roomId: string;
 }
 
-const Header = ({ pageTitle, showBackNav, askLeaveGame, backUrl }: Props) => {
+const Header = ({
+  pageTitle,
+  showBackNav,
+  askLeaveGame,
+  backUrl,
+  roomId,
+}: Props) => {
   const { showModal, ModalComponent } = useConfirmationModal();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -38,6 +46,7 @@ const Header = ({ pageTitle, showBackNav, askLeaveGame, backUrl }: Props) => {
         "Vous êtes sur le point de quitter cette partie, êtes-vous sûr ?"
       )) as boolean;
       if (res) {
+        emitClientLeftTheRoom(roomId);
         dispatch(killGame(true));
         if (typeof backUrl !== "undefined") {
           navigate(backUrl);

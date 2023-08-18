@@ -1,10 +1,22 @@
 import Header from "./Header";
-import { Badge, Card, Divider, Indicator, Loading, Mask } from "react-daisyui";
+import {
+  Badge,
+  Button,
+  Card,
+  Divider,
+  Indicator,
+  Loading,
+  Mask,
+} from "react-daisyui";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../hooks/reduxHooks";
 import { useEffect } from "react";
 import RoomIdBubble from "./RoomIdBubble";
 import PlayersList from "./PlayersList";
+import {
+  subscribeToNewPlayerInRoom,
+  subscribeToPlayerDisconnect,
+} from "../socket/room";
 
 type Props = {};
 
@@ -12,6 +24,8 @@ const Room = (props: Props) => {
   const navigate = useNavigate();
   const roomId = useAppSelector((state) => state.game.id);
   const gameSettings = useAppSelector((state) => state.game.gameSettings);
+  const hostId = useAppSelector((state) => state.game.hostId);
+  const userId = useAppSelector((state) => state.player.id);
 
   // obligatoire sinon redirect
   useEffect(() => {
@@ -20,12 +34,18 @@ const Room = (props: Props) => {
     }
   }, [roomId, navigate]);
 
+  useEffect(() => {
+    subscribeToNewPlayerInRoom();
+    subscribeToPlayerDisconnect();
+  });
+
   return (
     <>
       <Header
         pageTitle="Salle d'attente"
         showBackNav
         askLeaveGame
+        roomId={roomId}
         backUrl="/create-room"
       />
       <div className=" grid md:grid-cols-3 gap-12">
@@ -89,8 +109,7 @@ const Room = (props: Props) => {
           <h2 className=" text-xs font-bold mb-4 text-secondary uppercase">
             Participants
           </h2>
-          <PlayersList totalPlayers={gameSettings.totalPlayers} />
-
+          <PlayersList totalPlayers={Number(gameSettings.totalPlayers)} />
         </div>
         <div>
           <Card>
@@ -102,9 +121,15 @@ const Room = (props: Props) => {
               <Card.Title tag="h2">Tout le monde est là ?</Card.Title>
               <p>Vous pouvez lancer la partie quand vous le souhaitez</p>
               <Card.Actions className="justify-end mt-8">
-                <Link to={"/play"} className="btn btn-success w-full">
-                  Lancer la partie !
-                </Link>
+                {hostId === userId ? (
+                  <Link to={"/play"} className="btn btn-success w-full">
+                    Lancer la partie !
+                  </Link>
+                ) : (
+                  <Button disabled active={false} className="w-full">
+                    L'host va lancer la partie
+                  </Button>
+                )}
               </Card.Actions>
             </Card.Body>
           </Card>

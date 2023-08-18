@@ -1,7 +1,7 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
 import { GameReducerType } from "../@types/reducers";
 import { defaultConfig } from "../utils/gameConfigPossibility";
-import { PlayerListType } from "../@types/player";
+import { PlayerListType, PlayerType } from "../@types/player";
 import { GameSettingsType } from "../@types/gameSettings";
 
 const initialState = {
@@ -23,6 +23,8 @@ export const createGameSettings = createAction<GameSettingsType>(
   "game/createGameSettings"
 );
 export const setPlayers = createAction<PlayerListType>("game/setPlayers");
+export const addPlayer = createAction<PlayerType>("game/addPlayer");
+export const removePlayer = createAction<string>("game/removePlayer");
 
 export const toggleTheme = createAction<number>("game/toggleTheme");
 
@@ -50,6 +52,14 @@ const gameReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setPlayers, (state, action) => {
       state.players = action.payload;
+    })
+    .addCase(addPlayer, (state, action) => {
+      state.players = { ...state.players, [action.payload.id]: action.payload };
+    })
+    .addCase(removePlayer, (state, action) => {
+      const idToDelete = action.payload;
+      console.log(idToDelete);
+      delete state.players[idToDelete];
     })
     .addCase(toggleTheme, (state, action) => {
       state.gameSettings.themes[action.payload].activ =
