@@ -56,7 +56,7 @@ const CreateRoom = (props: Props) => {
 
   return (
     <>
-      <Header pageTitle="Créer une partie" showBackNav backUrl={"/"} />
+      <Header pageTitle="Créer une partie" />
       <Form
         className=" grid grid-cols-1 md:grid-cols-3 gap-12"
         onSubmit={handleSubmit}

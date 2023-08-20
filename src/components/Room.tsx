@@ -41,13 +41,7 @@ const Room = (props: Props) => {
 
   return (
     <>
-      <Header
-        pageTitle="Salle d'attente"
-        showBackNav
-        askLeaveGame
-        roomId={roomId}
-        backUrl="/create-room"
-      />
+      <Header pageTitle="Salle d'attente" />
       <div className=" grid md:grid-cols-3 gap-12">
         <div>
           <Indicator className="w-full">

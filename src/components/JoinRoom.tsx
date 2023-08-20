@@ -31,7 +31,7 @@ const JoinRoom = (props: Props) => {
 
   return (
     <>
-      <Header pageTitle="Rejoindre une partie" showBackNav backUrl={"/"} />
+      <Header pageTitle="Rejoindre une partie" />
       <Form
         className=" flex justify-center max-w-xl mx-auto"
         onSubmit={handleSubmit}
