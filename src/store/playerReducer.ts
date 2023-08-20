@@ -1,14 +1,11 @@
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import { createReducer } from "@reduxjs/toolkit";
 import { PlayerType } from "../@types/player";
+import { setPlayerId, setPlayerName } from "./actions/playerActions";
 
 const initialState: PlayerType = {
   id: "",
   name: "MonSuperPseudo",
 };
-
-export const setPlayer = createAction<PlayerType>("player/set");
-export const setPlayerId = createAction<string>("player/setId");
-export const setPlayerName = createAction<string>("player/setName");
 
 const playerReducer = createReducer(initialState, (builder) => {
   builder

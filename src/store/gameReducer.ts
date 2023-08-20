@@ -1,8 +1,17 @@
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import { createReducer } from "@reduxjs/toolkit";
 import { GameReducerType } from "../@types/reducers";
 import { defaultConfig } from "../utils/gameConfigPossibility";
-import { PlayerListType, PlayerType } from "../@types/player";
-import { GameSettingsType } from "../@types/gameSettings";
+import {
+  addPlayer,
+  changeGameSettings,
+  createGameSettings,
+  killGame,
+  removePlayer,
+  setHostId,
+  setPlayers,
+  setRoomId,
+  toggleTheme,
+} from "./actions/gameActions";
 
 const initialState = {
   id: null,
@@ -11,22 +20,6 @@ const initialState = {
   gameSettings: defaultConfig,
   players: {},
 } as GameReducerType;
-
-export const killGame = createAction<boolean>("game/reset");
-export const setRoomId = createAction<string | null>("game/setRoomId");
-export const setHostId = createAction<string | null>("game/setHostId");
-
-export const changeGameSettings = createAction<{ key: string; value: string }>(
-  "game/changeGameSettings"
-);
-export const createGameSettings = createAction<GameSettingsType>(
-  "game/createGameSettings"
-);
-export const setPlayers = createAction<PlayerListType>("game/setPlayers");
-export const addPlayer = createAction<PlayerType>("game/addPlayer");
-export const removePlayer = createAction<string>("game/removePlayer");
-
-export const toggleTheme = createAction<number>("game/toggleTheme");
 
 const gameReducer = createReducer(initialState, (builder) => {
   builder
