@@ -12,7 +12,7 @@ const PlayersList = ({ totalPlayers }: Props) => {
       <ul>
         {Object.keys(players).map((key) => (
           <li
-            className=" bg-neutral-content text-neutral p-3 rounded-lg flex"
+            className=" bg-neutral-content text-neutral p-3 rounded-lg flex mb-4"
             key={players[key].id}
           >
             <Mask

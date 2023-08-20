@@ -35,24 +35,17 @@ const Room = () => {
       <Header pageTitle="Salle d'attente" />
       <div className=" grid md:grid-cols-3 gap-12">
         <div>
-          <Indicator className="w-full">
-            <Badge
-              color="secondary"
-              className={Indicator.Item.className({ horizontal: "start" })}
-            >
-              Hey
-            </Badge>
-            <div className="text-neutral bg-neutral-content rounded-lg p-4 mb-8 w-full">
-              <h2 className="text-xl font-bold mb-4">
-                Le code pour participer
-              </h2>
-              <p className="text-sm mb-4">
-                Appuie sur le code ci-dessous pour le copier et le partager avec
-                tes amis
-              </p>
-              <RoomIdBubble roomId={roomId as string} />
-            </div>
-          </Indicator>
+          <h2 className="text-xs font-bold mb-4 text-secondary uppercase">
+            Inviter des joueurs
+          </h2>
+          <div className="text-neutral bg-neutral-content rounded-lg p-4 mb-8 w-full">
+            <h3 className="text-xl font-bold mb-4">Le code pour participer</h3>
+            <p className="text-sm mb-4">
+              Appuie sur le code ci-dessous pour le copier et le partager avec
+              tes amis
+            </p>
+            <RoomIdBubble roomId={roomId as string} />
+          </div>
           <Divider />
           <h2 className="text-xs font-bold mb-4 text-secondary uppercase">
             Réglages
@@ -92,6 +85,9 @@ const Room = () => {
           <PlayersList totalPlayers={Number(gameSettings.totalPlayers)} />
         </div>
         <div>
+          <h2 className="text-xs font-bold mb-4 text-secondary uppercase">
+            Lancer la partie !
+          </h2>
           <Card>
             <Card.Image
               src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
@@ -107,7 +103,7 @@ const Room = () => {
                   </Link>
                 ) : (
                   <Button disabled active={false} className="w-full">
-                    L'host va lancer la partie
+                    L'host va bientôt lancer la partie
                   </Button>
                 )}
               </Card.Actions>

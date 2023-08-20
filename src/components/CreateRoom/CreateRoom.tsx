@@ -13,9 +13,7 @@ import {
 } from "../../store/actions/gameActions";
 import { setPlayerName } from "../../store/actions/playerActions";
 
-type Props = {};
-
-const CreateRoom = (props: Props) => {
+const CreateRoom = () => {
   const roomId = useAppSelector((state) => state.game.id);
   const gameSettings = useAppSelector((state) => state.game.gameSettings);
   const player = useAppSelector((state) => state.player);
