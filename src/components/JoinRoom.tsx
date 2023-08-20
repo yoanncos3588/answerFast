@@ -1,5 +1,5 @@
 import { Button, Card, Form, Input } from "react-daisyui";
-import Header from "./Header";
+import Header from "./Header/Header";
 
 import { useEffect, useState } from "react";
 import { joinRoom } from "../socket/joinRoom";

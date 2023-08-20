@@ -1,5 +1,5 @@
 import { Alert, Button, Card, Divider, Form, Input } from "react-daisyui";
-import Header from "./Header";
+import Header from "./Header/Header";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import gameConfigPossibility from "../utils/gameConfigPossibility";
