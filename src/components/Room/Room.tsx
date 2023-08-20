@@ -1,13 +1,5 @@
 import Header from "../Header/Header";
-import {
-  Badge,
-  Button,
-  Card,
-  Divider,
-  Indicator,
-  Loading,
-  Mask,
-} from "react-daisyui";
+import { Badge, Button, Card, Divider, Indicator } from "react-daisyui";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { useEffect } from "react";
@@ -19,9 +11,7 @@ import {
 } from "../../socket/room";
 import ConfigItem from "./ConfigItem";
 
-type Props = {};
-
-const Room = (props: Props) => {
+const Room = () => {
   const navigate = useNavigate();
   const roomId = useAppSelector((state) => state.game.id);
   const gameSettings = useAppSelector((state) => state.game.gameSettings);

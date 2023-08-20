@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ChatBubble } from "react-daisyui";
 
 type Props = { roomId: string };

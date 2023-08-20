@@ -2,8 +2,8 @@ import React from "react";
 import { emitClientLeftTheRoom } from "../../socket/room";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { killGame } from "../../store/gameReducer";
 import useConfirmationModal from "../../hooks/useConfirmationModal";
+import { killGame } from "../../store/actions/gameActions";
 
 type Props = { roomId: string };
 

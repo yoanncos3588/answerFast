@@ -1,12 +1,8 @@
 import Logo from "../Logo";
 import { Divider } from "react-daisyui";
-import { Link, useNavigate } from "react-router-dom";
-import useConfirmationModal from "../../hooks/useConfirmationModal";
-import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { killGame } from "../../store/gameReducer";
-import { emitClientLeftTheRoom } from "../../socket/room";
 import ButtonBack from "./ButtonBack";
 import ButtonLeaveGame from "./ButtonLeaveGame";
+import { useAppSelector } from "../../hooks/reduxHooks";
 
 interface Props {
   pageTitle?: string;

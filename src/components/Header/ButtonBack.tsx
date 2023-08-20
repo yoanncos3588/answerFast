@@ -1,17 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 
-type Props = {};
-
-const ButtonBack = (props: Props) => {
+const ButtonBack = () => {
   const navigate = useNavigate();
-  // const handleBackClick = async (
-  //   e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  // ) => {
-  //   e.preventDefault();
-  //   if (typeof backUrl !== "undefined") {
 
-  //   }
-  // };
   return (
     <Link to={".."} onClick={() => navigate(-1)} className="btn btn-ghost mr-4">
       <svg

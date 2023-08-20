@@ -7,8 +7,11 @@ import SelectConfig from "./SelectConfig";
 import ThemeCheckbox from "./ThemeCheckbox";
 import { createRoom } from "../../socket/createRoom";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { changeGameSettings, toggleTheme } from "../../store/gameReducer";
-import { setPlayerName } from "../../store/playerReducer";
+import {
+  changeGameSettings,
+  toggleTheme,
+} from "../../store/actions/gameActions";
+import { setPlayerName } from "../../store/actions/playerActions";
 
 type Props = {};
 
