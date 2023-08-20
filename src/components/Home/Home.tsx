@@ -1,4 +1,4 @@
-import Logo from "./Logo";
+import Logo from "../Logo";
 import { Link } from "react-router-dom";
 
 const Home = () => {
@@ -16,7 +16,11 @@ const Home = () => {
           >
             Créer une partie !
           </Link>
-          <Link to="/join-room" className="btn btn-secondary my-3 w-full" role="button">
+          <Link
+            to="/join-room"
+            className="btn btn-secondary my-3 w-full"
+            role="button"
+          >
             Rejoindre une partie !
           </Link>
         </div>

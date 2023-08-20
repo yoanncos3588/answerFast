@@ -12,15 +12,15 @@ const PlayersList = ({ totalPlayers }: Props) => {
       <ul>
         {Object.keys(players).map((key) => (
           <li
-            className=" bg-neutral-content text-neutral p-3 rounded-lg grid grid-cols-5 mb-4"
+            className=" bg-neutral-content text-neutral p-3 rounded-lg flex"
             key={players[key].id}
           >
             <Mask
-              className="w-[56px]"
+              className="w-[56px] h-[56px]"
               src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
               variant="circle"
             />
-            <div className=" col-span-4 flex flex-col justify-center pl-4">
+            <div className="flex flex-col justify-center pl-4">
               <span className="block font-bold text-success-content">
                 {players[key].name}
               </span>

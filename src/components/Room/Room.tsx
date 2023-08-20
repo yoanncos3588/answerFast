@@ -1,4 +1,4 @@
-import Header from "./Header/Header";
+import Header from "../Header/Header";
 import {
   Badge,
   Button,
@@ -9,14 +9,15 @@ import {
   Mask,
 } from "react-daisyui";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../hooks/reduxHooks";
+import { useAppSelector } from "../../hooks/reduxHooks";
 import { useEffect } from "react";
 import RoomIdBubble from "./RoomIdBubble";
-import PlayersList from "./PlayersList";
+import PlayersList from "../PlayersList";
 import {
   subscribeToNewPlayerInRoom,
   subscribeToPlayerDisconnect,
-} from "../socket/room";
+} from "../../socket/room";
+import ConfigItem from "./ConfigItem";
 
 type Props = {};
 
@@ -51,7 +52,7 @@ const Room = (props: Props) => {
             >
               Hey
             </Badge>
-            <div className="text-neutral bg-neutral-content rounded-lg p-4 mb-8">
+            <div className="text-neutral bg-neutral-content rounded-lg p-4 mb-8 w-full">
               <h2 className="text-xl font-bold mb-4">
                 Le code pour participer
               </h2>
@@ -67,20 +68,15 @@ const Room = (props: Props) => {
             Réglages
           </h2>
           <ul className="mb-8">
-            <li className="mb-2">
-              Nombre de joueurs :{" "}
-              <span className=" text-accent">{gameSettings.totalPlayers}</span>
-            </li>
-            <li className="mb-2">
-              Nombre de questions :{" "}
-              <span className=" text-accent">
-                {gameSettings.totalQuestions}
-              </span>
-            </li>
-            <li className="mb-2">
-              Difficulté :{" "}
-              <span className=" text-accent">{gameSettings.difficulty}</span>
-            </li>
+            <ConfigItem
+              label="Nombre de joueurs"
+              value={gameSettings.totalPlayers}
+            />
+            <ConfigItem
+              label="Nombre de question"
+              value={gameSettings.totalQuestions}
+            />
+            <ConfigItem label="Difficulté" value={gameSettings.difficulty} />
           </ul>
           <h2 className=" text-xs font-bold mb-4 text-secondary uppercase">
             Thêmes
@@ -90,7 +86,7 @@ const Room = (props: Props) => {
               (t) =>
                 t.activ && (
                   <li
-                    className="inline-block bg-neutral p-4 m-2 rounded-lg"
+                    className="inline-block bg-neutral p-4 m-2 rounded-lg "
                     key={t.id}
                   >
                     {t.name}

@@ -1,14 +1,14 @@
 import { Alert, Button, Card, Divider, Form, Input } from "react-daisyui";
-import Header from "./Header/Header";
+import Header from "../Header/Header";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import gameConfigPossibility from "../utils/gameConfigPossibility";
+import gameConfigPossibility from "../../utils/gameConfigPossibility";
 import SelectConfig from "./SelectConfig";
 import ThemeCheckbox from "./ThemeCheckbox";
-import { createRoom } from "../socket/createRoom";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { changeGameSettings, toggleTheme } from "../store/gameReducer";
-import { setPlayerName } from "../store/playerReducer";
+import { createRoom } from "../../socket/createRoom";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import { changeGameSettings, toggleTheme } from "../../store/gameReducer";
+import { setPlayerName } from "../../store/playerReducer";
 
 type Props = {};
 

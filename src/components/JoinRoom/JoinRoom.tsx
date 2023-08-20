@@ -1,14 +1,12 @@
 import { Button, Card, Form, Input } from "react-daisyui";
-import Header from "./Header/Header";
+import Header from "../Header/Header";
 
 import { useEffect, useState } from "react";
-import { joinRoom } from "../socket/joinRoom";
-import { useAppSelector } from "../hooks/reduxHooks";
+import { joinRoom } from "../../socket/joinRoom";
+import { useAppSelector } from "../../hooks/reduxHooks";
 import { useNavigate } from "react-router-dom";
 
-type Props = {};
-
-const JoinRoom = (props: Props) => {
+const JoinRoom = () => {
   const [pseudo, setPseudo] = useState<string>("UnSuperPseudo");
   const [code, setCode] = useState<string>("");
 

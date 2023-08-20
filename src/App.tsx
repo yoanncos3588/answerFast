@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./components/Home";
-import CreateRoom from "./components/CreateRoom";
-import Room from "./components/Room";
-import JoinRoom from "./components/JoinRoom";
+import Home from "./components/Home/Home";
+import CreateRoom from "./components/CreateRoom/CreateRoom";
+import Room from "./components/Room/Room";
+import JoinRoom from "./components/JoinRoom/JoinRoom";
 
 function App() {
   return (
