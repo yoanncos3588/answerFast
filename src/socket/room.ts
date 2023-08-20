@@ -1,28 +1,46 @@
 import { socket } from ".";
 import { PlayerType } from "../@types/player";
 import store from "../store";
-import { addPlayer, removePlayer } from "../store/gameReducer";
+import { addPlayer, removePlayer } from "../store/actions/gameActions";
 
+/**
+ * ON/JOIN : subscribe page to socket event for when a player joint a room
+ */
 export const subscribeToNewPlayerInRoom = () => {
   socket.on("new_client_in_room", (newPlayer: PlayerType) => {
-    console.log("SOCKETON : new client in room");
+    console.log(`RECEIVE : client ${newPlayer} joined the room`);
     store.dispatch(addPlayer(newPlayer));
   });
 };
 
+/**
+ * OFF/JOIN: unsubscribe page to socket event for when a player joint a room
+ */
 export const unsubscribeToNewPlayerInRoom = () => {
-  console.log("SOCKETOFF : new client in room");
   socket.off("new_client_in_room");
 };
 
+/**
+ * ON/DISCONNECT : subscribe from event triggered when a player is disconnected
+ */
 export const subscribeToPlayerDisconnect = () => {
   socket.on("client_disconnect", (playerId) => {
-    console.log("SOCKETON : client disconnect");
+    console.log(`RECEIVE : client ${playerId} disconnected`);
     store.dispatch(removePlayer(playerId));
   });
 };
 
+/**
+ * OFF/DISCONNECT : unsubscribe from event triggered when a player is disconnected
+ */
+export const unsubscribeToPlayerDisconnect = () => {
+  socket.off("client_disconnect");
+};
+
+/**
+ * EMIT/QUIT : message when user left the room
+ */
 export const emitClientLeftTheRoom = (roomId: string) => {
-  console.log("EMIT: client_left_the room");
-  socket.emit("client_left_the_room", { roomId });
+  console.log("EMIT: client left the room");
+  socket.emit(`client_left_the_room`, roomId);
 };
